@@ -2,7 +2,7 @@
   "name": "五子棋 - 双人对战",
   "short_name": "五子棋",
   "description": "经典五子棋游戏，支持双人对战和离线游玩",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#f0f2f5",
   "theme_color": "#2563eb",

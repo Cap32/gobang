@@ -4,10 +4,10 @@ const STATIC_CACHE_NAME = 'gobang-static-v1.0.0';
 
 // 需要缓存的资源
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon.svg'
+  './',
+  './index.html',
+  './manifest.json',
+  './icon.svg'
 ];
 
 // 安装 Service Worker
@@ -78,7 +78,7 @@ self.addEventListener('fetch', (event) => {
             console.log('Fetch failed:', error);
             // 如果网络请求失败，返回离线页面或错误响应
             if (event.request.headers.get('accept').includes('text/html')) {
-              return caches.match('/index.html');
+              return caches.match('./index.html');
             }
           });
       })
@@ -88,7 +88,12 @@ self.addEventListener('fetch', (event) => {
 // 检查是否为静态资源
 function isStaticAsset(url) {
   const staticExtensions = ['.html', '.js', '.css', '.json', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico'];
-  return staticExtensions.some(ext => url.endsWith(ext)) || STATIC_ASSETS.includes(new URL(url).pathname);
+  const pathname = new URL(url).pathname;
+  const relativePath = pathname.replace(/^\/[^\/]+/, '.'); // 将 /gobang/* 转换为 ./*
+
+  return staticExtensions.some(ext => url.endsWith(ext)) ||
+         STATIC_ASSETS.includes(relativePath) ||
+         STATIC_ASSETS.includes(pathname);
 }
 
 // 处理推送消息（可选）
